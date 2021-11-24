@@ -54,7 +54,7 @@ impl Trail{
     fn update(&mut self){
         // self.position = (self.position.0, self.position.1 + 1);
         self.position.1 += 1;
-        if self.position.1 > self.window_size.1 {
+        if self.position.1 > self.window_size.1  + self.length as u16{
             *self = Self::new(
                 self.window_size,
                 (self.position.0, 1), 
@@ -65,11 +65,9 @@ impl Trail{
 
     fn draw(&mut self){
         for i in 0..self.char_vec.len() {
-            let y = self.position.1 + self.length as u16 - i as u16;
-            if y < 1 {
-                continue
-            } else if y > self.window_size.1 {
-                break;
+            let y = self.position.1 + i as u16;
+            if y < 1 || y >= self.window_size.1 {
+                continue;
             }
             print!(
                 "{}{}",
